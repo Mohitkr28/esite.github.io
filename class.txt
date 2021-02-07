@@ -1,0 +1,26 @@
+class Questionss(db.Model):
+    exam_id = db.Column(db.Integer)
+    question_id = db.Column(db.Integer, primary_key=True)
+    question_type = db.Column(db.String(50))
+    question = db.Column(db.String(50))
+    question_photo = db.Column(db.LargeBinary)
+    opt1 = db.Column(db.String(50),default='NA')
+    opt2 = db.Column(db.String(50),default='NA')
+    opt3 = db.Column(db.String(50),default='NA')
+    opt4 = db.Column(db.String(50),default='NA')
+    mcqans = db.Column(db.String(50),default='NA')
+    question_marks = db.Column(db.Integer)
+    nagativemarks = db.Column(db.Float)
+    imgfilename = db.Column(db.String())
+
+
+class Exams(db.Model):
+    exam_id = db.Column(db.Integer, primary_key=True)
+    teacher_name = db.Column(db.String(50))
+    email = db.Column(db.String(50))
+    exam_name = db.Column(db.String(50))
+    date = db.Column(db.String(50))
+    time = db.Column(db.String(50))
+    time_duration = db.Column(db.String(50))
+    grade = db.Column(db.String(50))
+    intro = db.Column(db.String(50))

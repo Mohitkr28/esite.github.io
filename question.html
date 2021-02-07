@@ -1,0 +1,380 @@
+<html>
+
+<head>
+  <style>
+    #ref {
+      position: absolute;
+      top: 580px;
+      left: 20px;
+    }
+
+    #next {
+      position: absolute;
+      top: 580px;
+      left: 160px;
+    }
+
+    #clear {
+      position: absolute;
+      top: 580px;
+      left: 850px;
+    }
+
+    #prev {
+      position: absolute;
+      top: 580px;
+      left: 280px;
+    }
+
+    #subm {
+      position: absolute;
+      top: 0px;
+      left: 850px;
+    }
+
+    #questionstatus {
+      position: absolute;
+      top: 140px;
+      left: 750px;
+    }
+
+    #clear_ref {
+      position: absolute;
+      top: 580px;
+      left: 400px;
+    }
+  </style>
+</head>
+
+<body onload="startApp()">
+  <div class="container">
+    <div id="time" class="card center countdown" style="background-color: rgb(237, 248, 220); font-size: 30px"> Exam
+      Start In : </div>
+    <div class="row">
+      <div id="questionlist" class="col-md-3">
+      </div>
+      <div id="questionstatus" class="col-md-3">
+        <button id="gree" style="background-color: green;"></button>-Visited and answered<br>
+        <button id="re" style="background-color: red;"></button>-Visited and not answered<br>
+        <button id="orang" style="background-color: orange;"></button>-Answered and marked for reference<br>
+        <button id="brow" style="background-color: brown;"></button>-Not answered and marked for reference<br>
+        <button id="whit" style="background-color: white;"></button>-Not visited<br>
+      </div>
+      <div id="heading"></div>
+      <div class="card col-md-9 blue lighten-5">
+        <div class="input-field col s12 blue lighten-5" id='quesimg'>
+        </div>
+        <div class="input-field col s12 blue lighten-5" id='demo'>
+        </div>
+        <div id="answer">
+        </div>
+      </div>
+      <!-- <div class="col-3"></div>
+          <div  class="col-9"> -->
+      <!-- <div class="col-md-3 "></div> -->
+
+      <br>
+      <!-- </div> -->
+      <div class="col-md-3"></div>
+      <div class="col-md-8">
+        <br>
+        <div class="waves-effect waves-light btn" id="prev"></div>
+        <div class="waves-effect waves-light btn" id="next"></div>
+        <div class="waves-effect waves-light btn" id="clear"></div>
+        <div class="waves-effect waves-light btn" id="ref"></div>
+        <div class="waves-effect waves-light btn" id="clear_ref"></div>
+      </div>
+      <div id="subm" class="col-md-1">
+        <br>
+        <button class="waves-effect waves-light btn" onclick="mysubmit()">Submit</button>
+      </div>
+      <div id="calculator"></div>
+      <button id="calculation" onclick="openCalc()">Start Calculator</button>
+    </div>
+  </div>
+  <div class="container" style="background-color: brown">
+  </div>
+</body>
+<script>
+  var i = '{{intro[0].time}}';
+  var z = '{{intro[0].time_duration}}'
+  var s = i.split(':')
+  var d = z.split(':')
+  var t = parseInt(s[0]) + parseInt(d[0])
+  var t1 = parseInt(s[1]) + parseInt(d[1])
+  //var list='{{questions|safe}}';
+  //var t= JSON.parse(list)
+  var t = [
+    { "question_type": "MCQ", "question": "hellobbs?", "question_marks": "3", "opt1": "a", "opt2": "b", "opt3": "c", "opt4": "d" },
+    { "question_type": "Subj", "question": "hello2?", "question_marks": "3" },
+    { "question_type": "Subj", "question": "hello3?", "question_marks": "3" },
+    { "question_type": "MCQ", "question": "hello4?", "question_marks": "3", "opt1": "a", "opt2": "b", "opt3": "c", "opt4": "d" }
+  ]
+  var r = 0
+  var gr = 0
+  var o = 0
+  var b = 0
+  var w = t.length
+  var g = []
+  if (parseInt(t1) > 59) {
+    t = t + 1;
+    t1 = t1 - 59;
+  }
+  var tt = String(t) + ':' + String(t1)
+  var time_duration = (60 * parseInt(d[0])) + parseInt(d[1])
+  function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+
+      minutes = parseInt(timer / 60, 10)
+      seconds = parseInt(timer % 60, 10);
+
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      display.text("Time left : " + minutes + ":" + seconds);
+
+      if (--timer < 0) {
+        localStorage.removeItem("mytime");
+        mysubmit()
+      }
+      localStorage.setItem("mytime", minutes);
+      localStorage.setItem("mytimesec", seconds);
+    }, 1000);
+  }
+
+  jQuery(function ($) {
+    var fiveMinutes = 60 * time_duration,
+      display = $('#time');
+    var x = 0;
+    if (x != 0) {
+      fiveMinutes = 60 * x;
+    }
+    localStorage.setItem("mytime", fiveMinutes);
+    startTimer(fiveMinutes, display);
+  });
+
+
+
+
+  function startApp() {
+
+    var text = ""
+
+    for (var i = 0; i < t.length; i++) {
+      text += "<li class='list-group-item blue lighten-5' style='list-style: none;display: inline;margin: 7px;'><button id='q" + i + "' style='border-radius: 150%; background-color:white;' onclick='renderQues(" + (i) + ");' >" + (i + 1) + " </button></li>";
+
+    }
+    document.getElementById('questionlist').innerHTML = text
+    document.getElementById('whit').innerHTML = w.toString()
+    document.getElementById('re').innerHTML = r.toString()
+    document.getElementById('gree').innerHTML = gr.toString()
+    document.getElementById('orang').innerHTML = o.toString()
+    document.getElementById('brow').innerHTML = b.toString()
+    for (var i = 0; i < t.length; i++) {
+      if (t[i]['question_type'] === 'MCQ') { g[i] = [false, false, false, false] }
+      else { g[i] = [false]; }
+    }
+    renderQues(0);
+  }
+
+
+  var answer = []
+  console.log((t[0]['imgfilename']));
+  var i = 0;
+  function changeCol(i, j) {
+    if (j === 1) {
+      if (g[i][0] === false) { g[i][0] = true; document.getElementById("r" + j).checked = true; }
+      else { g[i][0] = false; document.getElementById("r" + j).checked = false; };
+    }
+    if (j === 2) {
+      if (g[i][1] === false) { g[i][1] = true; document.getElementById("r" + j).checked = true; }
+      else { g[i][1] = false; document.getElementById("r" + j).checked = false; }
+    }
+    if (j === 3) {
+      if (g[i][2] === false) { g[i][2] = true; document.getElementById("r" + j).checked = true; }
+      else { g[i][2] = false; document.getElementById("r" + j).checked = false; }
+    }
+    if (j === 4) {
+      if (g[i][3] === false) { g[i][3] = true; document.getElementById("r" + j).checked = true; }
+      else { g[i][3] = false; document.getElementById("r" + j).checked = false; }
+    }
+    if (!(g[i][0] || g[i][1] || g[i][2] || g[i][3])) { changeCount(i, document.getElementById("q" + i).style.backgroundColor, "red"); document.getElementById("q" + i).style.backgroundColor = "red"; }
+    else { changeCount(i, document.getElementById("q" + i).style.backgroundColor, "green"); document.getElementById("q" + i).style.backgroundColor = "green"; }
+  }
+  function changeCol2(i) {
+    console.log("hi")
+    if (document.getElementById("qanswer").value != "") {
+      changeCount(i, document.getElementById("q" + i).style.backgroundColor, "green")
+      document.getElementById("q" + i).style.backgroundColor = "green";
+
+      g[i][0] = true
+    }
+    else {
+      myFunctionclear(i)
+    }
+  }
+  function renderQues(i) {
+
+
+    var headings = ""
+    headings += "<h1>Question:" + (i + 1) + "/" + t.length + "</h1>"
+    document.getElementById("heading").innerHTML = headings
+    var randoms = ""
+    var randoms1 = ""
+    var randoms2 = ""
+    var randoms3 = ""
+    var randoms4 = ""
+    if (i < t.length - 1) { randoms += "<button id='nex'onclick='myFunctionnext(" + i + ")' >Next Question</button>" }
+    if (i > 0) { randoms1 += "<button id='pre'onclick='myFunctionprv(" + i + ")'>Previous Question</button>" }
+    randoms2 += "<button id='clea'onclick='myFunctionclear(" + i + ")'>Clear Answer</button>"
+    randoms3 += "<button id='re'onclick='myFunctionref(" + i + ")'>Next and Reference</button>"
+    randoms4 += "<button id='rec'onclick='myFunctionclearref(" + i + ")'>Clear Reference</button>"
+    document.getElementById("next").innerHTML = randoms
+    document.getElementById("").innerHTML = randoms1
+    document.getElementById("clear").innerHTML = randoms2
+    document.getElementById("ref").innerHTML = randoms3
+    document.getElementById("clear_ref").innerHTML = randoms4
+    if (t[i]['question_type'] == 'MCQ') {
+      if (document.getElementById("answer").innerHTML != "") { document.getElementById("answer").innerHTML = ""; }
+      text = "<br> <p><b>(" + (i + 1) + ") " + t[i]['question'] + "  (Marks=" + t[i]['question_marks'] + ")</b></p><br>" + "<p><input type='radio' id='r1' name='rad' onclick='changeCol(" + i + "," + 1 + ")'> " + t[i]['opt1'] + "</p><br>" + "<p><input type='radio' id='r2' name='rad' onclick='changeCol(" + i + "," + 2 + ")'>  " + t[i]['opt2'] + "</p><br>" + "<p><input type='radio' id='r3' name='rad' onclick='changeCol(" + i + "," + 3 + ")'>  " + t[i]['opt3'] + "</p><br>" + "<p><input type='radio' id='r4' name='rad' onclick='changeCol(" + i + "," + 4 + ")'>  " + t[i]['opt4'] + "</p><br><br><br>";
+      /*text1 = "<br><select id='qanswer' name='timezone' name='timezone' class='browser-default'><option value='opt0'>select the option</option><option value='opt1'>Option 1</option><option value='opt2'>Option 2</option><option value=opt3>Option 3</option><option value='opt4'>Option 4</option></select><br><br>"
+      document.getElementById("answer").innerHTML = text1;*/
+      document.getElementById("demo").innerHTML = text;
+      var mg = t[i]['imgfilename'];
+      img1 = '<img src="{{url_for("static", filename=' + mg + ')}}" />'
+      img = '<img src="/static/images/' + t[i]['imgfilename'] + '">'
+      //console.log(img1)
+      document.getElementById("quesimg").innerHTML = img;
+      if (g[i][0] === true) { document.getElementById("r1").checked = true; }
+      if (g[i][1] === true) { document.getElementById("r2").checked = true; }
+      if (g[i][2] === true) { document.getElementById("r3").checked = true; }
+      if (g[i][3] === true) { document.getElementById("r4").checked = true; }
+      if (!(g[i][0] || g[i][1] || g[i][2] || g[i][3])) {
+        if (document.getElementById("q" + i).style.backgroundColor != "brown") {
+          changeCount(i, document.getElementById("q" + i).style.backgroundColor, "red")
+          document.getElementById("q" + i).style.backgroundColor = "red";
+        }
+
+      }
+    }
+    else {
+      text = "<br> <p><b>(" + (i + 1) + ")" + t[i]['question'] + "</b></p><br>";
+      document.getElementById("demo").innerHTML = text;
+      text1 = "<br><textarea id='qanswer' class='materialize-textarea' data-length='600' onkeydown='changeCol2(" + i + ")'></textarea><label for='textarea2'>Answer</label><br><br>"
+      document.getElementById("answer").innerHTML = text1;
+      img = '<img src="/static/images/' + t[i]['imgfilename'] + '">'
+      document.getElementById("quesimg").innerHTML = img;
+      if (!g[i][0]) { if (document.getElementById("q" + i).style.backgroundColor != "brown") { changeCount(i, document.getElementById("q" + i).style.backgroundColor, "red"); document.getElementById("q" + i).style.backgroundColor = "red"; } }
+      //else{document.getElementById("q"+i).style.backgroundColor = "green";}
+    }
+  }
+  myanswer();
+  function myFunctionnext(i) {
+    renderQues(i + 1)
+  }
+  function myFunctionprv(i) {
+    renderQues(i - 1)
+  }
+
+  function myFunctionclear(i) {
+
+    if (t[i]['question_type'] === 'MCQ') {
+      document.getElementById("r1").checked = false
+      document.getElementById("r2").checked = false
+      document.getElementById("r3").checked = false
+      document.getElementById("r4").checked = false
+      g[i][0] = false;
+      g[i][1] = false;
+      g[i][2] = false;
+      g[i][3] = false;
+    }
+    else {
+      document.getElementById("qanswer").value = "";
+      g[i][0] = false
+    }
+    changeCount(i, document.getElementById("q" + i).style.backgroundColor, "red")
+    document.getElementById("q" + i).style.backgroundColor = "red";
+
+  }
+  function myFunctionref(i) {
+    if (document.getElementById("q" + i).style.backgroundColor === "green") {
+      changeCount(i, document.getElementById("q" + i).style.backgroundColor, "orange")
+      document.getElementById("q" + i).style.backgroundColor = "orange";
+    }
+    else {
+      changeCount(i, document.getElementById("q" + i).style.backgroundColor, "brown")
+      document.getElementById("q" + i).style.backgroundColor = "brown";
+    }
+    if (i < t.length - 1) { renderQues(i + 1) }
+  }
+  function myFunctionclearref(i) {
+    if (document.getElementById("q" + i).style.backgroundColor === "orange") {
+      changeCount(i, document.getElementById("q" + i).style.backgroundColor, "green")
+      document.getElementById("q" + i).style.backgroundColor = "green"
+
+    }
+    else {
+      changeCount(i, document.getElementById("q" + i).style.backgroundColor, "red")
+      document.getElementById("q" + i).style.backgroundColor = "red"
+    }
+  }
+  function changeCount(i, prev_c, next_c) {
+    console.log(prev_c)
+    console.log(next_c)
+    if (prev_c === "red") { r = r - 1 }
+    else if (prev_c === "green") { gr = gr - 1 }
+    else if (prev_c === "white") { w = w - 1 }
+    else if (prev_c === "orange") { o = o - 1 }
+    else if (prev_c === "brown") { b = b - 1 }
+    if (next_c === "red") { r = r + 1 }
+    else if (next_c === "green") { gr = gr + 1 }
+    else if (next_c === "white") { w = w + 1 }
+    else if (next_c === "orange") { o = o + 1 }
+    else if (next_c === "brown") { b = b + 1 }
+    document.getElementById("re").innerHTML = r.toString()
+    document.getElementById("gree").innerHTML = gr.toString()
+    document.getElementById("whit").innerHTML = w.toString()
+    document.getElementById("orang").innerHTML = o.toString()
+    document.getElementById("brow").innerHTML = b.toString()
+  }
+  function openCalc() {
+    //window.open('Calculator:///');
+    window.open("calculator.html");
+  }
+  for (var z = 0; z < t.length; z++) {
+    answer.push(" ")
+  }
+  function myanswer() {
+    var inputElement = document.getElementById('qanswer');
+    var theirInput = '';
+    inputElement.addEventListener('change', function (e) {
+      theirInput = e.target.value;
+      // alert(theirInput)
+      answer.splice(i, 1);
+      answer.splice(i, 0, theirInput)
+    });
+
+    console.log(answer)
+  }
+
+
+  function mysubmit() {
+    fetch('/receiver', {
+      method: 'POST',
+      body: JSON.stringify(answer),
+      headers: new Headers({
+        'content-type': 'application/json'
+      })
+    }).then(function (response) { // At this point, Flask has printed our JSON
+      return response.text();
+    }).then(function (text) {
+
+      window.location.href = "{{url_for('result')}}";
+    });
+  }
+
+
+</script>
+
+</html>

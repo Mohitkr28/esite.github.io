@@ -1,0 +1,29 @@
+
+@app.route('/questions',methods=['POST','GET'])
+def questions():
+    # print(datetime.date(datetime.now()))
+    # print(datetime.time(datetime.now()))
+    if session:
+        examid = int(session['test_id'])
+        question = Questionss.query.filter_by(exam_id=examid).all()
+        intro = Exams.query.filter_by(exam_id=examid).all()
+        exam_va = intro[0].exam_val
+        jsondata = convertjson(question)
+        tt = json.dumps(jsondata)
+        z = len(question)
+        id=0
+        date = str(datetime.date(datetime.now(pytz.timezone('Asia/kolkata'))))
+        time = str(datetime.time(datetime.now(pytz.timezone('Asia/kolkata'))))
+        time1 = time.split(':')
+        # t = time1[0]+':'+time1[1]
+        tt1 = intro[0].time
+        tt1 = tt1.split(':')
+        th = int(tt1[0])
+        tm = int(tt1[1])
+        session['id'] = id
+        if (((date == intro[0].date) and (th==int(time1[0]) and int(time1[1])<=tm+2))):
+            return render_template('question.html',questions = jsondata,intro = intro,z=z,t = question,exam_va=exam_va)
+        else:
+             return redirect(url_for('latetoexam'))
+    else:
+        return redirect(url_for('taketest'))

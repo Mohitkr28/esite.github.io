@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=%, initial-scale=1.0">
+  <title>Exam Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+    crossorigin="anonymous"></script>
+  <style>
+    .fsection {
+      height: 100vh;
+      background-color: skyblue;
+    }
+
+    #content {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      z-index: 99;
+      overflow: hidden;
+      visibility: hidden;
+
+
+    }
+
+    #btn{
+      visibility: hidden;
+    }
+
+    .study {
+      display: grid;
+      grid-gap: 3px;
+      grid-template-columns: 4fr 1fr;
+      grid-template-rows: 5vh 5vh 75vh 5vh;
+    }
+
+    .questiontype {
+      grid-column: 1/2;
+      background-color: rgb(255, 255, 255);
+    }
+
+    .questionnumber {
+      grid-column: 1/2;
+      background-color: rgb(255, 255, 255);
+    }
+
+    .screen {
+      grid-column: 1/2;
+      background-color: rgb(255, 255, 255);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .screen p {
+      padding-left: 10px;
+    }
+
+
+    .submission {
+      grid-column: 1/-1;
+      height: 6vh;
+      /* overflow-x: scroll; */
+      background-color: rgb(255, 255, 255);
+    }
+
+    .candidates {
+      grid-column: 2/3;
+      grid-row: 1/4;
+      background-color: skyblue;
+      display: grid;
+
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 3fr;
+      grid-row-gap: 3px;
+
+    }
+
+    .c1 {
+
+      background-color: rgb(255, 255, 255);
+      padding: 5px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .c2 {
+      grid-row: 1/2;
+      grid-row: 2/3;
+      background-color: rgb(255, 255, 255);
+      padding: 5px;
+      display: grid;
+      grid-template-rows: 1fr 1fr 8fr;
+      /* grid-row-gap: 2px; */
+    }
+
+    .c1 p {
+      font-size: 15px;
+    }
+
+
+    .info {
+      line-height: 5vh;
+      float: right;
+      padding-right: 10px;
+
+    }
+
+    .questiontype h6 {
+      line-height: 5vh;
+      padding-left: 10px;
+      float: left;
+    }
+
+    .questionnumber h5 {
+      padding-left: 10px;
+      line-height: 5vh;
+      float: left;
+    }
+
+    .calc {
+      float: right;
+      width: 40px;
+      background-color: cornflowerblue;
+      border: none;
+      margin: 5px;
+      height: 4vh;
+      text-align: center;
+      justify-content: center;
+      border-radius: 5px;
+    }
+
+
+
+
+
+
+
+    .answered {
+      width: 50px;
+      border-bottom-left-radius: 50px;
+      border-bottom-right-radius: 50px;
+      border-color: white;
+      background-color: lawngreen;
+
+    }
+
+    .answered1 {
+      width: 50px;
+
+      border-color: white;
+      border-top-left-radius: 50px;
+      border-top-right-radius: 50px;
+      background-color: orangered;
+    }
+
+    .answered2 {
+      width: 50px;
+      border-radius: 100px;
+      background-color: powderblue;
+      border-color: white;
+    }
+
+    .answered3 {
+      width: 50px;
+      border-radius: 100px;
+      background-color: rgb(163, 46, 163);
+      border-color: white;
+    }
+
+    #answered4 {
+      width: 50px;
+      border-color: white;
+
+      background-color: red;
+
+    }
+
+    .end {
+      grid-template-columns: 1/-1;
+    }
+
+    .a4 {
+      grid-column: -1/1;
+      border: none;
+    }
+
+    .submission button {
+      background-color: cornflowerblue;
+      justify-content: center;
+      align-items: center;
+      margin-top: 4px;
+      height: 4vh;
+    }
+
+
+
+    .pr {
+      float: right;
+      margin-right: 10%;
+      width: 100px;
+
+      background-color: cornflowerblue;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .pr1 {
+      float: left;
+
+      margin-left: 25%;
+      width: 100px;
+      border: none;
+      border-radius: 5px;
+      background-color: cornflowerblue;
+    }
+
+    .pr2 {
+      float: left;
+      margin-left: 1%;
+
+      width: 140px;
+      border: none;
+      border-radius: 5px;
+      background-color: cornflowerblue;
+    }
+
+
+
+
+    .pr3 {
+      float: left;
+      margin-left: 5%;
+
+      width: 240px;
+      border: none;
+      border-radius: 5px;
+      background-color: cornflowerblue;
+    }
+
+    .pr4 {
+      float: left;
+      margin-left: 1%;
+
+      width: 140px;
+      border: none;
+      border-radius: 5px;
+      background-color: cornflowerblue;
+    }
+
+    .candidates p {
+      color: white;
+
+
+    }
+
+    .c2 p1 {
+      color: rgb(0, 0, 0);
+      background-color: rgb(255, 255, 255);
+      grid-column: -1/1;
+      padding-left: 8px;
+      margin-top: 5px;
+      font-weight: 600;
+    }
+
+    .c2 p2 {
+      color: rgb(0, 0, 0);
+      background-color: rgb(255, 255, 255);
+      grid-column: -1/1;
+      padding-left: 8px;
+      margin-top: 5px;
+    }
+
+    .qbtn {
+      grid-row: 3/4;
+      height: 100%;
+      /* overflow: scroll; */
+      justify-items: center;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      position: relative;
+      /* scroll-margin-right: 20px; */
+      box-sizing: border-box;
+      /* padding-right: 30px; */
+      /* grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr; */
+    }
+
+    .qbtn button {
+      margin: 5px;
+    }
+
+    .candidates p {
+      color: black;
+    }
+
+    html,
+    body {
+      height: 100%;
+      /* overflow: hidden; */
+      /* font-size: 10px; */
+    }
+
+    body button {
+      height: 4.6vh;
+      font-size: 15px;
+    }
+
+    #questionlist {
+      height: 40vh;
+      overflow: auto;
+
+      /* overflow-y: scroll; */
+      /* overflow-y: hidden; */
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 10px;
+      /* Remove scrollbar space */
+      background: transparent;
+      /* Optional: just make scrollbar invisible */
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: skyblue;
+      width: 2px;
+    }
+
+    @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500');
+
+    * {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      text-decoration: none;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: -350px;
+      width: 350px;
+      height: 100%;
+      background: #042331;
+      transition: all .5s ease;
+      margin-top: 700px;
+    }
+
+    .sidebar header {
+      font-size: 22px;
+      color: white;
+      line-height: 70px;
+      text-align: center;
+      background: #ffffff;
+      user-select: none;
+    }
+
+    .sidebar ul a {
+      display: block;
+      height: 100%;
+      width: 100%;
+      line-height: 65px;
+      font-size: 20px;
+      color: white;
+      padding-left: 40px;
+      box-sizing: border-box;
+      border-bottom: 1px solid black;
+      border-top: 1px solid rgba(255, 255, 255, .1);
+      transition: .4s;
+    }
+
+    ul li:hover a {
+      padding-left: 50px;
+    }
+
+    .sidebar ul a i {
+      margin-right: 16px;
+    }
+
+    #check {
+      display: none;
+    }
+
+    label #btn,
+    label #cancel {
+      position: absolute;
+      background: #042331;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    label #btn {
+      left: 40px;
+      top: 25px;
+      font-size: 35px;
+      color: white;
+      padding: 6px 12px;
+      transition: all .5s;
+    }
+
+    label #cancel {
+      z-index: 1111;
+      left: -195px;
+      top: 17px;
+      font-size: 30px;
+      color: #0a5275;
+      padding: 4px 9px;
+      transition: all .5s ease;
+    }
+
+    #check:checked~.sidebar {
+      left: 0;
+    }
+
+    #check:checked~label #btn {
+      left: 250px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #check:checked~label #cancel {
+      left: 195px;
+    }
+
+    #check:checked~section {
+      margin-left: 250px;
+    }
+
+    section {
+      background: url(bg.jpeg) no-repeat;
+      background-position: center;
+      background-size: cover;
+      height: 100vh;
+      transition: all .5s;
+    }
+
+
+    #qanswer {
+      width: 200px;
+      height: 40px;
+      margin-left: 1%;
+    }
+
+    #ql {
+      display: none;
+    }
+
+    #btn{
+      margin-top: 10px;
+    }
+
+
+    /* .t1{
+            grid-column: 1/-1;
+            display: flex;
+        }
+        .t2{
+            grid-column: 1/-1;
+            display: flex;
+        }
+        .t3{
+            grid-column: 1/-1;
+            display: flex;
+        } */
+    @media screen and (max-width: 1000px) {
+
+      body {
+        width: 102vw;
+        height: 102vh;
+        overflow-y: hidden;
+        overflow-x: scroll;
+      }
+
+      #btn{
+      visibility: visible;
+    }
+
+      .questiontype p {
+        font-size: 8px;
+      }
+
+      .fsection {
+        width: 102vw;
+        height: 102vh;
+        overflow: scroll;
+        background-color: rgb(255, 255, 255);
+      }
+
+
+      .study {
+        margin-top: 60px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+
+
+      .candidates {
+        width: 100%;
+        height: 20vh;
+        display: flex;
+        flex-direction: column;
+
+      }
+
+      html,
+      body {
+        height: 102vh;
+        overflow-y: hidden;
+
+
+      }
+
+      #wrapper {
+        height: 100%;
+        overflow: auto;
+        width: 100%;
+
+      }
+
+
+      .qbtn {
+
+        height: 100%;
+
+      }
+
+      .questiontype {
+        width: 100vw;
+      }
+
+      .questionnumber {
+        width: 100vw;
+      }
+
+      .screen {
+        width: 100%;
+        height: 440px;
+        background-color: rgb(255, 255, 255);
+      }
+
+      .submission {
+        height: 14vh;
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #content {
+        position: absolute;
+        top: 30%;
+        left: 0%;
+        z-index: 99;
+        overflow: hidden;
+        visibility: hidden;
+
+      }
+
+
+      .pr {
+
+
+        background-color: cornflowerblue;
+        border: none;
+        border-radius: 5px;
+      }
+
+      .pr1 {
+
+        border: none;
+        border-radius: 5px;
+        background-color: cornflowerblue;
+      }
+
+      .pr2 {
+
+        border: none;
+        border-radius: 5px;
+        background-color: cornflowerblue;
+      }
+
+
+
+
+      .pr3 {
+
+        border: none;
+        border-radius: 5px;
+        height: 50px;
+        background-color: cornflowerblue;
+      }
+
+      .pr4 {
+
+        border: none;
+        border-radius: 5px;
+        background-color: cornflowerblue;
+      }
+
+
+      .submission button {
+        background-color: cornflowerblue;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 20px;
+        font-size: 5px;
+      }
+
+      .candidates {
+        display: none;
+        z-index: 99;
+        background-color: rgb(255, 255, 255);
+      }
+
+      .qll {
+        float: left;
+      }
+
+      #ql {
+
+        display: block;
+        width: 40px;
+        margin-left: 7px;
+        margin-top: -5px;
+        float: right;
+
+      }
+
+      .navbar {
+        position: fixed;
+        width: 100%;
+        height: 50px;
+        z-index: 1;
+
+      }
+
+
+
+
+    }
+  </style>
+</head>
+
+<body onload="startApp()">
+
+  <div id="content"></div>
+
+  <div class="fsection">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+
+        <!-- <a class="navbar-brand" href="#qlll"> <button class='qll' type='button' id='ql' onclick='togg();'> ☰
+          </button></a> -->
+        
+        <div id="time" style=" font-size: 15px;margin-top: 0%;margin-right: 6%;"> Exam Start In : </div>
+
+        <button class='calc' type='button' id='cal' onclick='tog();'> ☰ </button>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#"> </a>
+
+            </li>
+
+
+          </ul>
+
+
+        </div>
+        <input type="checkbox" id="check">
+        <label for="check">
+          <i class="fas fa-bars" id="btn"></i>
+          <i class="fas fa-times" id="cancel"></i>
+        </label>
+        <div class="sidebar">
+        
+          <div class="c1">
+            <div class="t1">
+              <p><button class="answered" type="button" id="gree" style="background-color: green;"></button> Answered</p>
+              <p><button class="answered1" type="button" id="ren" style="background-color: red;"></button> Unanswered</p>
+            </div>
+            <div class="t2">
+              <p><button class="answered2" type="button" id="whit" style="background-color: whitesmoke;"></button> Not
+                visited</p>
+              <p><button class="answered3" type="button" id="brow" style="background-color: brown;"></button> For review
+              </p>
+            </div>
+            <div class="a4">
+              <p><button class="answered4" type="button" id="orang" style="background-color:orange;"></button> Answered
+                and marked for
+                review(will be considered for evaluation)</p>
+            </div>
+  
+          </div>
+          <div class="c2" id="qlll">
+            <p1>Subject Name</p1>
+            <p2>Choose a Question</p2>
+            <div class="qbtn" id="questionlist">
+  
+  
+  
+  
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </nav>
+    <div class="study">
+      <div class="questiontype" id="quetype">
+
+      </div>
+      <div class="questionnumber">
+        <div id="heading"></div>
+
+      </div>
+      <div class="screen" id="demo">
+
+        <!-- <div class="card col-md-9 blue lighten-5">
+                    <div class="input-field col s12 blue lighten-5" id='quesimg'>
+                    </div>
+                    <div class="input-field col s12 blue lighten-5" id='demo'>
+                    </div>
+                    <div id="answer">
+                    </div>
+                  </div> -->
+      </div>
+
+      <div class="submission" id="submissions">
+        <!-- <button class='qll' type='button' id='ql' > ☰ </button> -->
+      </div>
+      <div class="candidates" id="qllll">
+        <div class="c1">
+          <div class="t1">
+            <p><button class="answered" type="button" id="gree" style="background-color: green;"></button> Answered</p>
+            <p><button class="answered1" type="button" id="ren" style="background-color: red;"></button> Unanswered</p>
+          </div>
+          <div class="t2">
+            <p><button class="answered2" type="button" id="whit" style="background-color: whitesmoke;"></button> Not
+              visited</p>
+            <p><button class="answered3" type="button" id="brow" style="background-color: brown;"></button> For review
+            </p>
+          </div>
+          <div class="a4">
+            <p><button class="answered4" type="button" id="orang" style="background-color:orange;"></button> Answered
+              and marked for
+              review(will be considered for evaluation)</p>
+          </div>
+
+        </div>
+        <div class="c2" id="qlll">
+          <p1>Subject Name</p1>
+          <p2>Choose a Question</p2>
+          <div class="qbtn" id="questionlist">
+
+
+
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="calcc.js"></script>
+
+
+  <script>
+    var y = '{{intro[0].time}}';
+    var z = '{{intro[0].time_duration}}'
+    var s = y.split(':')
+    var d = z.split(':')
+    var t2 = parseInt(s[0]) + parseInt(d[0])
+    var t1 = parseInt(s[1]) + parseInt(d[1])
+    //var list='{{questions|safe}}';
+    //var t= JSON.parse(list)
+    var t = [
+      { "question_type": "MCQ", "question": "hello1?", "question_marks": "3", "opt1": "a", "opt2": "b", "opt3": "c", "opt4": "d" },
+      { "question_type": "Subjective", "question": "hello2?", "question_marks": "3" },
+      { "question_type": "Subjective", "question": "hello3?", "question_marks": "3" },
+      { "question_type": "MCQ", "question": "hello4?", "question_marks": "3", "opt1": "a", "opt2": "b", "opt3": "c", "opt4": "d" }
+    ]
+    var r = 0
+    var gr = 0
+    var o = 0
+    var b = 0
+    var w = t.length
+    var g = []
+    var answers = []
+    for (var i = 0; i < t.length; i++) {
+      answers[i] = ""
+    }
+    if (parseInt(t1) > 59) {
+      t2 = t2 + 1;
+      t1 = t1 - 59;
+    }
+    var tt = String(t2) + ':' + String(t1)
+    var time_duration = (60 * parseInt(d[0])) + parseInt(d[1])
+    function startTimer(duration, display) {
+      var timer = duration, minutes, seconds;
+      setInterval(function () {
+
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        var text1 = ("Time left : " + minutes + ":" + seconds)
+        display.text(text1)
+
+        if (--timer < 0) {
+          localStorage.removeItem("mytime");
+          mysubmit()
+        }
+        localStorage.setItem("mytime", minutes);
+        localStorage.setItem("mytimesec", seconds);
+      }, 1000);
+    }
+
+    jQuery(function ($) {
+      var fiveMinutes = 60 * time_duration,
+        display = $('#time');
+      var x = 0;
+      if (x != 0) {
+        fiveMinutes = 60 * x;
+      }
+      localStorage.setItem("mytime", fiveMinutes);
+      startTimer(fiveMinutes, display);
+    });
+
+
+
+
+    function startApp() {
+
+      var text = ""
+      for (var i = 0; i < t.length; i++) {
+        text += "<button id='q" + i + "' class='answered2' style='width:30px; background-color:white;' onclick='renderQues(" + (i) + ");' >" + (i + 1) + " </button>";
+
+      }
+      document.getElementById('questionlist').innerHTML = text
+
+      /*  document.getElementById('whit').innerHTML = w.toString()
+        document.getElementById('re').innerHTML = r.toString()
+        document.getElementById('gree').innerHTML = gr.toString()
+        document.getElementById('orang').innerHTML = o.toString()
+        document.getElementById('brow').innerHTML = b.toString()*/
+      for (var i = 0; i < t.length; i++) {
+        if (t[i]['question_type'] === 'MCQ') { g[i] = [false, false, false, false] }
+        else { g[i] = [false]; }
+      }
+      renderQues(0);
+    }
+
+
+    //var answer = []
+    console.log((t[0]['imgfilename']));
+    var i = 0;
+    function changeCol(i, j) {
+      answers[i] = "opt" + j.toString();
+      if (j === 1) {
+        if (g[i][0] === false) { g[i][0] = true; document.getElementById("r" + j).checked = true; }
+        else { g[i][0] = false; document.getElementById("r" + j).checked = false; };
+      }
+      if (j === 2) {
+        if (g[i][1] === false) { g[i][1] = true; document.getElementById("r" + j).checked = true; }
+        else { g[i][1] = false; document.getElementById("r" + j).checked = false; }
+      }
+      if (j === 3) {
+        if (g[i][2] === false) { g[i][2] = true; document.getElementById("r" + j).checked = true; }
+        else { g[i][2] = false; document.getElementById("r" + j).checked = false; }
+      }
+      if (j === 4) {
+        if (g[i][3] === false) { g[i][3] = true; document.getElementById("r" + j).checked = true; }
+        else { g[i][3] = false; document.getElementById("r" + j).checked = false; }
+      }
+      if (!(g[i][0] || g[i][1] || g[i][2] || g[i][3])) { changeCount(i, document.getElementById("q" + i).style.backgroundColor, "red"); document.getElementById("q" + i).className = "answered1"; document.getElementById("q" + i).style.backgroundColor = "red" }
+      else { changeCount(i, document.getElementById("q" + i).style.backgroundColor, "green"); document.getElementById("q" + i).className = "answered"; document.getElementById("q" + i).style.backgroundColor = "green" }
+    }
+    function changeCol2(i) {
+      //console.log("hi")
+      answers[i] = document.getElementById("qanswer" + i).value
+      //console.log(tri[i])
+      if (document.getElementById("qanswer" + i).value != null) {
+
+        changeCount(i, document.getElementById("q" + i).style.backgroundColor, "green")
+        document.getElementById("q" + i).className = "answered";
+        document.getElementById("q" + i).style.backgroundColor = "green"
+        g[i][0] = true
+      }
+      else {
+        console.log("hello")
+        myFunctionclear(i)
+      }
+    }
+    function renderQues(i) {
+      console.log(answers[i])
+      var text2 = ""
+      text2 += "<h6>Question Type: " + t[i]['question_type'] + "</h6><p class='info'>Marks for correct answer 2|Negative marks 2/3</p>"
+      document.getElementById('quetype').innerHTML = text2
+
+      var headings = ""
+      headings += "<h5>Question:" + (i + 1) + "/" + t.length
+      document.getElementById("heading").innerHTML = headings
+      var randoms = ""
+      var randoms1 = ""
+      var randoms2 = ""
+      var randoms3 = ""
+      var randoms4 = ""
+      var randoms5 = ""
+      if (i < t.length - 1) { randoms += "<button id='pr2'onclick='myFunctionnext(" + i + ")' type='button' style='float: right; width: 100px; font-size: 10px; border-radius: 5px;margin-left: 0.5%;' >Next Question</button>" }
+      if (i > 0) { randoms1 += "<button id='pr4'onclick='myFunctionprv(" + i + ")' type='button' style='float: left; width: 100px;font-size: 10px; border-radius: 5px;margin-left: 0.5%;'>Previous Question</button>" }
+      randoms2 += "<button id='pr'onclick='myFunctionclear(" + i + ")' type='button' style='float: left; width: 100px; font-size: 10px;border-radius: 5px;'>Clear Response</button>"
+      randoms3 += "<button id='pr1'onclick='myFunctionref(" + i + ")' type='button' style='float: right; width: 100px;font-size: 10px;  border-radius: 5px;'>Reference & Next</button>"
+      randoms4 += "<button id='pr3'onclick='myFunctionclearref(" + i + ")' type='button' style='width: 100px; font-size: 10px;border-radius: 5px;margin-left: 0.5%;'>Clear Reference</button>"
+      randoms5 += "<button id='subm'onclick='mysubmit()' type='button' style=' width: 100px;font-size: 10px; border-radius: 5px;margin-left: 0.5%;'>Submit</button>"
+      document.getElementById("submissions").innerHTML = randoms + randoms1 + randoms3 + randoms4 + randoms2 + randoms5
+
+
+      if (t[i]['question_type'] == 'MCQ') {
+        img = '<img src="/static/images/' + t[i]['imgfilename'] + '">'
+        //if (document.getElementById("answer").innerHTML != "") { document.getElementById("answer").innerHTML = ""; }
+        text = "<br> <p><b> " + t[i]['question'] + img + " </b></p><br>" + "<p><input type='radio' id='r1' name='rad' onclick='changeCol(" + i + "," + 1 + ")'> " + t[i]['opt1'] + "</p><br>" + "<p><input type='radio' id='r2' name='rad' onclick='changeCol(" + i + "," + 2 + ")'>  " + t[i]['opt2'] + "</p><br>" + "<p><input type='radio' id='r3' name='rad' onclick='changeCol(" + i + "," + 3 + ")'>  " + t[i]['opt3'] + "</p><br>" + "<p><input type='radio' id='r4' name='rad' onclick='changeCol(" + i + "," + 4 + ")'>  " + t[i]['opt4'] + "</p><br><br><br>";
+        /*text1 = "<br><select id='qanswer' name='timezone' name='timezone' class='browser-default'><option value='opt0'>select the option</option><option value='opt1'>Option 1</option><option value='opt2'>Option 2</option><option value=opt3>Option 3</option><option value='opt4'>Option 4</option></select><br><br>"
+        document.getElementById("answer").innerHTML = text1;*/
+
+
+        //console.log(img1)
+        document.getElementById("demo").innerHTML = text;
+        //  document.getElementById("quesimg").innerHTML = img;
+        if (g[i][0] === true) { document.getElementById("r1").checked = true; }
+        if (g[i][1] === true) { document.getElementById("r2").checked = true; }
+        if (g[i][2] === true) { document.getElementById("r3").checked = true; }
+        if (g[i][3] === true) { document.getElementById("r4").checked = true; }
+        if (!(g[i][0] || g[i][1] || g[i][2] || g[i][3])) {
+          if (document.getElementById("q" + i).style.backgroundColor != "brown") {
+            changeCount(i, document.getElementById("q" + i).style.backgroundColor, "red")
+            document.getElementById("q" + i).className = "answered1"; document.getElementById("q" + i).style.backgroundColor = "red";
+          }
+
+        }
+      }
+      else {
+        text = "<br> <p><b>" + t[i]['question'] + "</b></p><br>";
+
+        text1 = "<br><textarea id='qanswer" + i + "' style='margin-left:1%;' class='materialize-textarea' data-length='600' onkeyup='changeCol2(" + i + ")' >" + answers[i] + "</textarea><label for='textarea2'>Write your answer here</label><br><br>"
+        img = '<img src="/static/images/' + t[i]['imgfilename'] + '">'
+
+        document.getElementById("demo").innerHTML = text + img + text1;
+
+        if (!g[i][0]) { if (document.getElementById("q" + i).style.backgroundColor != "brown") { changeCount(i, document.getElementById("q" + i).style.backgroundColor, "red"); document.getElementById("q" + i).className = "answered1"; document.getElementById("q" + i).style.backgroundColor = "red" } }
+        //else{document.getElementById("q"+i).style.backgroundColor = "green";}
+      }
+    }
+    myanswer();
+    function myFunctionnext(i) {
+      renderQues(i + 1)
+    }
+    function myFunctionprv(i) {
+      renderQues(i - 1)
+    }
+
+    function myFunctionclear(i) {
+      answers[i] = "";
+      //console.log(answers[i])
+      if (t[i]['question_type'] === 'MCQ') {
+        document.getElementById("r1").checked = false
+        document.getElementById("r2").checked = false
+        document.getElementById("r3").checked = false
+        document.getElementById("r4").checked = false
+        g[i][0] = false;
+        g[i][1] = false;
+        g[i][2] = false;
+        g[i][3] = false;
+      }
+      else {
+        document.getElementById("qanswer" + i).value = "";
+        g[i][0] = false
+      }
+      changeCount(i, document.getElementById("q" + i).style.backgroundColor, "red")
+      document.getElementById("q" + i).style.backgroundColor = "red";
+      document.getElementById("q" + i).className = "answered1";
+    }
+    function myFunctionref(i) {
+      if (document.getElementById("q" + i).style.backgroundColor === "green") {
+        changeCount(i, document.getElementById("q" + i).style.backgroundColor, "orange")
+        document.getElementById("q" + i).style.backgroundColor = "orange";
+        document.getElementById("q" + i).className = "answered4";
+      }
+      else if (document.getElementById("q" + i).style.backgroundColor === "red") {
+        changeCount(i, document.getElementById("q" + i).style.backgroundColor, "brown")
+        document.getElementById("q" + i).style.backgroundColor = "brown";
+        document.getElementById("q" + i).className = "answered3";
+      }
+      if (i < t.length - 1) { renderQues(i + 1) }
+    }
+    function myFunctionclearref(i) {
+      if (document.getElementById("q" + i).style.backgroundColor === "orange") {
+        changeCount(i, document.getElementById("q" + i).style.backgroundColor, "green")
+        document.getElementById("q" + i).style.backgroundColor = "green"
+        document.getElementById("q" + i).className = "answered";
+      }
+      else if (document.getElementById("q" + i).style.backgroundColor === "brown") {
+        changeCount(i, document.getElementById("q" + i).style.backgroundColor, "red")
+        document.getElementById("q" + i).style.backgroundColor = "red"
+        document.getElementById("q" + i).className = "answered1";
+      }
+    }
+    function changeCount(i, prev_c, next_c) {
+      if (prev_c === "red") { r = r - 1 }
+      else if (prev_c === "green") { gr = gr - 1 }
+      else if (prev_c === "white") { w = w - 1 }
+      else if (prev_c === "orange") { o = o - 1 }
+      else if (prev_c === "brown") { b = b - 1 }
+      if (next_c === "red") { r = r + 1 }
+      else if (next_c === "green") { gr = gr + 1 }
+      else if (next_c === "white") { w = w + 1 }
+      else if (next_c === "orange") { o = o + 1 }
+      else if (next_c === "brown") { b = b + 1 }
+      document.getElementById("ren").innerHTML = r.toString()
+      document.getElementById("gree").innerHTML = gr.toString()
+      document.getElementById("whit").innerHTML = w.toString()
+      document.getElementById("orang").innerHTML = o.toString()
+      document.getElementById("brow").innerHTML = b.toString()
+    }
+    /*function myanswer() {
+      var inputElement = document.getElementById('qanswer');
+      var theirInput = '';
+      inputElement.addEventListener('change', function (e) {
+        theirInput = e.target.value;
+        // alert(theirInput)
+        answer.splice(i, 1);
+        answer.splice(i, 0, theirInput)
+      });
+  
+      console.log(answer)
+    }*/
+
+
+    function mysubmit() {
+      fetch('/receiver', {
+        method: 'POST',
+        body: JSON.stringify(answers),
+        headers: new Headers({
+          'content-type': 'application/json'
+        })
+      }).then(function (response) { // At this point, Flask has printed our JSON
+        return response.text();
+      }).then(function (text) {
+
+        window.location.href = "{{url_for('result')}}";
+      });
+    }
+
+
+  </script>
+</body>
+
+</html>
